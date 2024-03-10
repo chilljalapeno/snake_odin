@@ -72,27 +72,19 @@ InitGame :: proc() {
 }
 
 KeyboardControls :: proc() {
-	if raylib.IsKeyPressed(raylib.KeyboardKey.RIGHT) &&
-	   snake[0].speed.x == 0 &&
-	   allowMove {
+	if raylib.IsKeyPressed(raylib.KeyboardKey.RIGHT) && snake[0].speed.x == 0 && allowMove {
 		snake[0].speed = raylib.Vector2{SQUARE_SIZE, 0}
 		allowMove = false
 	}
-	if raylib.IsKeyPressed(raylib.KeyboardKey.LEFT) &&
-	   snake[0].speed.x == 0 &&
-	   allowMove {
+	if raylib.IsKeyPressed(raylib.KeyboardKey.LEFT) && snake[0].speed.x == 0 && allowMove {
 		snake[0].speed = raylib.Vector2{-SQUARE_SIZE, 0}
 		allowMove = false
 	}
-	if raylib.IsKeyPressed(raylib.KeyboardKey.UP) &&
-	   snake[0].speed.y == 0 &&
-	   allowMove {
+	if raylib.IsKeyPressed(raylib.KeyboardKey.UP) && snake[0].speed.y == 0 && allowMove {
 		snake[0].speed = raylib.Vector2{0, -SQUARE_SIZE}
 		allowMove = false
 	}
-	if raylib.IsKeyPressed(raylib.KeyboardKey.DOWN) &&
-	   snake[0].speed.y == 0 &&
-	   allowMove {
+	if raylib.IsKeyPressed(raylib.KeyboardKey.DOWN) && snake[0].speed.y == 0 && allowMove {
 		snake[0].speed = raylib.Vector2{0, SQUARE_SIZE}
 		allowMove = false
 	}
@@ -119,19 +111,13 @@ GenerateFruitPosition :: proc() -> raylib.Vector2 {
 	fruitPosX := f32(
 		raylib.GetRandomValue(
 			0,
-			i32(
-				((screenWidth / SQUARE_SIZE) - 1) * SQUARE_SIZE +
-				int(offset.x / 2),
-			),
+			i32(((screenWidth / SQUARE_SIZE) - 1) * SQUARE_SIZE + int(offset.x / 2)),
 		),
 	)
 	fruitPosY := f32(
 		raylib.GetRandomValue(
 			0,
-			i32(
-				((screenHeight / SQUARE_SIZE) - 1) * SQUARE_SIZE +
-				int(offset.y / 2),
-			),
+			i32(((screenHeight / SQUARE_SIZE) - 1) * SQUARE_SIZE + int(offset.y / 2)),
 		),
 	)
 	return raylib.Vector2{fruitPosX, fruitPosY}
@@ -143,7 +129,6 @@ PositionFruits :: proc() {
 		fruit.active = true
 		fmt.println(fruit.active)
 		fruit.position = GenerateFruitPosition()
-
 		for i := 0; i < counterTail; i += 1 {
 			isSnakeOverFruitX: bool = fruit.position.x == snake[i].position.x
 			isSnakeOverFruitY: bool = fruit.position.y == snake[i].position.y
@@ -169,11 +154,9 @@ SelfCollision :: proc() {
 
 Collision :: proc() {
 	snkOverFruitX := snake[0].position.x < (fruit.position.x + fruit.size.x)
-	snkOverFruitX2 :=
-		(snake[0].position.x + snake[0].size.x) > fruit.position.x
+	snkOverFruitX2 := (snake[0].position.x + snake[0].size.x) > fruit.position.x
 	snkOverFruitY := snake[0].position.y < (fruit.position.y + fruit.size.y)
-	snkOverFruitY2 :=
-		(snake[0].position.y + snake[0].size.y) > fruit.position.y
+	snkOverFruitY2 := (snake[0].position.y + snake[0].size.y) > fruit.position.y
 	snkOX := snkOverFruitX && snkOverFruitX2
 	snkOY := snkOverFruitY && snkOverFruitY2
 	if snkOX && snkOY {
@@ -195,19 +178,15 @@ UpdateGame :: proc() {
 			framesCounter += 1
 		}
 	}
-
 }
+
 DrawGame :: proc() {
 	raylib.BeginDrawing()
 	raylib.DrawFPS(10, 10)
 	raylib.ClearBackground(raylib.RAYWHITE)
 	if !gameOver {
 		for i := 0; i < counterTail; i += 1 {
-			raylib.DrawRectangleV(
-				snake[i].position,
-				snake[i].size,
-				snake[i].color,
-			)
+			raylib.DrawRectangleV(snake[i].position, snake[i].size, snake[i].color)
 		}
 		raylib.DrawRectangleV(fruit.position, fruit.size, fruit.color)
 	}
